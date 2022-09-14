@@ -61,7 +61,7 @@ plugins:
 #   - gemfiles/
 #   - Gemfile
 #   - Gemfile.lock
-#   - node_modules/
+#   - node_modules/s
 #   - vendor/bundle/
 #   - vendor/cache/
 #   - vendor/gems/
