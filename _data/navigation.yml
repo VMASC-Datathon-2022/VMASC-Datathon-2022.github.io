@@ -3,7 +3,7 @@ main:
     url: /
   - title: "Shiny Application"
     url: /r-shiny/
-  - title: "QGIS Map"
-    url: /qgis-map/
+  - title: "QGIS Maps"
+    url: /qgis-map-list/
   - title: "HASH.ai Model"
     url: https://core.hash.ai/@vzamponi/exposure-model-datathon/main

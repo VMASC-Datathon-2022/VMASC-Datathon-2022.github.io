@@ -2,30 +2,20 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
-layout: default
-permalink: /qgis-map/
+layout: splash
+permalink: /qgis-map-list/
+header:
+  overlay_image: images/banner-virginia-hampton-roads-norfolk-VA.jpeg
 ---
 
-<style>
-.video-holder {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  overflow: hidden;
-}
-.video-holder iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
-<div class="video-holder">
-  <iframe width="560"
-          height="315" 
-          src="/index-qgis.html" 
-          frameborder="0" 
-          allowfullscreen></iframe>
-</div>
+## QGIS Maps
+  <ul class="visible-links"><li class="masthead__menu-item" >
+        <a href="/qgis-map-1">Significant Tree's</a>
+      </li><li class="masthead__menu-item">
+        <a href="/qgis-map-2">Planted Tree's</a>
+      </li><li class="masthead__menu-item">
+        <a href="/qgis-map-3">Significant & Planted Tree's</a>
+      </li><li class="masthead__menu-item">
+        <a href="/qgis-map-4">Parks and Recreation</a>
+      </li></ul>
+

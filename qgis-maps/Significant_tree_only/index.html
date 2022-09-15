@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 80%;
+            height: 1502px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Significant_Trees_1.js"></script>
+        <script src="data/Census_Tracts_2020Tracts2020_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_next20_0');
+        map.getPane('pane_next20_0').style.zIndex = 400;
+        var layer_next20_0 = L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            pane: 'pane_next20_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_next20_0;
+        map.addLayer(layer_next20_0);
+        function pop_Significant_Trees_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>ID</strong><br />' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Nomination Date</strong><br />' + (feature.properties['Nomination Date'] !== null ? autolinker.link(feature.properties['Nomination Date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Genus</strong><br />' + (feature.properties['Genus'] !== null ? autolinker.link(feature.properties['Genus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Species</strong><br />' + (feature.properties['Species'] !== null ? autolinker.link(feature.properties['Species'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Common Name</strong><br />' + (feature.properties['Common Name'] !== null ? autolinker.link(feature.properties['Common Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Public Yes/No</strong><br />' + (feature.properties['Public Yes/No'] !== null ? autolinker.link(feature.properties['Public Yes/No'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Diameter (DBH - inches)</strong><br />' + (feature.properties['Diameter (DBH - inches)'] !== null ? autolinker.link(feature.properties['Diameter (DBH - inches)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Height (ft)</strong><br />' + (feature.properties['Height (ft)'] !== null ? autolinker.link(feature.properties['Height (ft)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Spread</strong><br />' + (feature.properties['Spread'] !== null ? autolinker.link(feature.properties['Spread'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Subjective Points</strong><br />' + (feature.properties['Subjective Points'] !== null ? autolinker.link(feature.properties['Subjective Points'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Date Modified</strong><br />' + (feature.properties['Date Modified'] !== null ? autolinker.link(feature.properties['Date Modified'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Latitude</strong><br />' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Longitude</strong><br />' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Significant_Trees_1_0(feature) {
+            if (feature.properties['Spread'] >= 0.000000 && feature.properties['Spread'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,252,245,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 10.000000 && feature.properties['Spread'] <= 35.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(213,239,207,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 35.000000 && feature.properties['Spread'] <= 55.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(158,215,152,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 55.000000 && feature.properties['Spread'] <= 75.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 75.000000 && feature.properties['Spread'] <= 95.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(29,134,65,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 95.000000 && feature.properties['Spread'] <= 176.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_1',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Significant_Trees_1');
+        map.getPane('pane_Significant_Trees_1').style.zIndex = 401;
+        map.getPane('pane_Significant_Trees_1').style['mix-blend-mode'] = 'normal';
+        var layer_Significant_Trees_1 = new L.geoJson(json_Significant_Trees_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Significant_Trees_1',
+            layerName: 'layer_Significant_Trees_1',
+            pane: 'pane_Significant_Trees_1',
+            onEachFeature: pop_Significant_Trees_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Significant_Trees_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Significant_Trees_1);
+        map.addLayer(layer_Significant_Trees_1);
+        function pop_Census_Tracts_2020Tracts2020_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">STATEFP20</th>\
+                        <td>' + (feature.properties['STATEFP20'] !== null ? autolinker.link(feature.properties['STATEFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">COUNTYFP20</th>\
+                        <td>' + (feature.properties['COUNTYFP20'] !== null ? autolinker.link(feature.properties['COUNTYFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TRACTCE20</th>\
+                        <td>' + (feature.properties['TRACTCE20'] !== null ? autolinker.link(feature.properties['TRACTCE20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GEOID20</th>\
+                        <td>' + (feature.properties['GEOID20'] !== null ? autolinker.link(feature.properties['GEOID20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NAME20</th>\
+                        <td>' + (feature.properties['NAME20'] !== null ? autolinker.link(feature.properties['NAME20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NAMELSAD20</th>\
+                        <td>' + (feature.properties['NAMELSAD20'] !== null ? autolinker.link(feature.properties['NAMELSAD20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MTFCC20</th>\
+                        <td>' + (feature.properties['MTFCC20'] !== null ? autolinker.link(feature.properties['MTFCC20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FUNCSTAT20</th>\
+                        <td>' + (feature.properties['FUNCSTAT20'] !== null ? autolinker.link(feature.properties['FUNCSTAT20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ALAND20</strong><br />' + (feature.properties['ALAND20'] !== null ? autolinker.link(feature.properties['ALAND20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>AWATER20</strong><br />' + (feature.properties['AWATER20'] !== null ? autolinker.link(feature.properties['AWATER20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">INTPTLAT20</th>\
+                        <td>' + (feature.properties['INTPTLAT20'] !== null ? autolinker.link(feature.properties['INTPTLAT20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">INTPTLON20</th>\
+                        <td>' + (feature.properties['INTPTLON20'] !== null ? autolinker.link(feature.properties['INTPTLON20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TRACT_DESCRIPTION</th>\
+                        <td>' + (feature.properties['TRACT_DESCRIPTION'] !== null ? autolinker.link(feature.properties['TRACT_DESCRIPTION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Length</th>\
+                        <td>' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Area</th>\
+                        <td>' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Census_Tracts_2020Tracts2020_2_0() {
+            return {
+                pane: 'pane_Census_Tracts_2020Tracts2020_2',
+                opacity: 1,
+                color: 'rgba(99,99,99,0.8588235294117647)',
+                dashArray: '',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Census_Tracts_2020Tracts2020_2');
+        map.getPane('pane_Census_Tracts_2020Tracts2020_2').style.zIndex = 402;
+        map.getPane('pane_Census_Tracts_2020Tracts2020_2').style['mix-blend-mode'] = 'normal';
+        var layer_Census_Tracts_2020Tracts2020_2 = new L.geoJson(json_Census_Tracts_2020Tracts2020_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Census_Tracts_2020Tracts2020_2',
+            layerName: 'layer_Census_Tracts_2020Tracts2020_2',
+            pane: 'pane_Census_Tracts_2020Tracts2020_2',
+            onEachFeature: pop_Census_Tracts_2020Tracts2020_2,
+            style: style_Census_Tracts_2020Tracts2020_2_0,
+        });
+        bounds_group.addLayer(layer_Census_Tracts_2020Tracts2020_2);
+        map.addLayer(layer_Census_Tracts_2020Tracts2020_2);
+        map.on("zoomend", function(e) {
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Significant_Trees_1);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Significant_Trees_1);
+            }
+            if (map.getZoom() <= 19 && map.getZoom() >= 8) {
+                map.addLayer(layer_Census_Tracts_2020Tracts2020_2);
+            } else if (map.getZoom() > 19 || map.getZoom() < 8) {
+                map.removeLayer(layer_Census_Tracts_2020Tracts2020_2);
+            }
+        });
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Significant_Trees_1);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Significant_Trees_1);
+            }
+            if (map.getZoom() <= 19 && map.getZoom() >= 8) {
+                map.addLayer(layer_Census_Tracts_2020Tracts2020_2);
+            } else if (map.getZoom() > 19 || map.getZoom() < 8) {
+                map.removeLayer(layer_Census_Tracts_2020Tracts2020_2);
+            }
+        map.on("zoomend", function(){
+
+                if (map.hasLayer(layer_Census_Tracts_2020Tracts2020_2)) {
+                    if (map.getZoom() <= 12 && map.getZoom() >= 16) {
+                        layer_Census_Tracts_2020Tracts2020_2.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Census_Tracts_2020Tracts2020_2.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        });
+        setBounds();
+        var i = 0;
+        layer_Census_Tracts_2020Tracts2020_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['TRACTCE20'] !== null?String('<div style="color: #0105ff; font-size: 7pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['TRACTCE20']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Census_Tracts_2020Tracts2020_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+                if (map.hasLayer(layer_Census_Tracts_2020Tracts2020_2)) {
+                    if (map.getZoom() <= 12 && map.getZoom() >= 16) {
+                        layer_Census_Tracts_2020Tracts2020_2.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Census_Tracts_2020Tracts2020_2.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        resetLabels([layer_Census_Tracts_2020Tracts2020_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Census_Tracts_2020Tracts2020_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Census_Tracts_2020Tracts2020_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Census_Tracts_2020Tracts2020_2]);
+        });
+        </script>
+    </body>
+</html>
