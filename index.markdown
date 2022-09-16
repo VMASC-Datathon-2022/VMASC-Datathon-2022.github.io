@@ -49,5 +49,5 @@ For the datathon, we explore the benefits provided by trees identified as signif
 
 
 <p align="center">
-    <img src="/images/vmasc.png" alt="VMASC Logo">
+    <img src="/images/vmasc.PNG" alt="VMASC Logo">
 </p>
