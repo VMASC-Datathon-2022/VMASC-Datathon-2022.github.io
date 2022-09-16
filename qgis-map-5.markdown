@@ -34,5 +34,5 @@ permalink: /qgis-map-5/
           src="/qgis-maps/Sig_planted_census_parks_rec/index.html"
           frameborder="0"
           allowfullscreen></iframe>
-          <img src="/images/Map_Legend.svg" width="300" height="275" align="right" style="padding-right: 1.5em;">
+          <img src="/images/Map_Legend_2.svg" width="300" height="275" align="right" style="padding-right: 1.5em;">
 </div>
