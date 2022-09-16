@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 80%;
+            height: 1502px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Parks__City_of_NorfolkParks_1.js"></script>
+        <script src="data/Significant_Trees_2.js"></script>
+        <script src="data/Recreation_Centers__City_of_NorfolkRecreationCenters_3.js"></script>
+        <script src="data/Planted_trees_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_next20_0');
+        map.getPane('pane_next20_0').style.zIndex = 400;
+        var layer_next20_0 = L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            pane: 'pane_next20_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_next20_0;
+        map.addLayer(layer_next20_0);
+        function pop_Parks__City_of_NorfolkParks_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>OBJECTID</strong><br />' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ID</strong><br />' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PARK_NAME</strong><br />' + (feature.properties['PARK_NAME'] !== null ? autolinker.link(feature.properties['PARK_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>BASKETBALL_COURTS</strong><br />' + (feature.properties['BASKETBALL_COURTS'] !== null ? autolinker.link(feature.properties['BASKETBALL_COURTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>GYMS</strong><br />' + (feature.properties['GYMS'] !== null ? autolinker.link(feature.properties['GYMS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>RESTROOMS</strong><br />' + (feature.properties['RESTROOMS'] !== null ? autolinker.link(feature.properties['RESTROOMS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>DETAILS</strong><br />' + (feature.properties['DETAILS'] !== null ? autolinker.link(feature.properties['DETAILS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>X_COORD</strong><br />' + (feature.properties['X_COORD'] !== null ? autolinker.link(feature.properties['X_COORD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Y_COORD</strong><br />' + (feature.properties['Y_COORD'] !== null ? autolinker.link(feature.properties['Y_COORD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ADDRESS</strong><br />' + (feature.properties['ADDRESS'] !== null ? autolinker.link(feature.properties['ADDRESS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PARK_TYPE</strong><br />' + (feature.properties['PARK_TYPE'] !== null ? autolinker.link(feature.properties['PARK_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Shape_Leng</strong><br />' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ACRES</strong><br />' + (feature.properties['ACRES'] !== null ? autolinker.link(feature.properties['ACRES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ADDITIONAL_INFO</strong><br />' + (feature.properties['ADDITIONAL_INFO'] !== null ? autolinker.link(feature.properties['ADDITIONAL_INFO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>BIKE_RACKS</strong><br />' + (feature.properties['BIKE_RACKS'] !== null ? autolinker.link(feature.properties['BIKE_RACKS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LIGHTED_BASKETBALL_COURTS</strong><br />' + (feature.properties['LIGHTED_BASKETBALL_COURTS'] !== null ? autolinker.link(feature.properties['LIGHTED_BASKETBALL_COURTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LIGHTED_BASEBALL_FIELDS</strong><br />' + (feature.properties['LIGHTED_BASEBALL_FIELDS'] !== null ? autolinker.link(feature.properties['LIGHTED_BASEBALL_FIELDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LIGHTED_TENNIS_COURTS</strong><br />' + (feature.properties['LIGHTED_TENNIS_COURTS'] !== null ? autolinker.link(feature.properties['LIGHTED_TENNIS_COURTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ADA_PLAYGROUNDS</strong><br />' + (feature.properties['ADA_PLAYGROUNDS'] !== null ? autolinker.link(feature.properties['ADA_PLAYGROUNDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PLAYGROUNDS</strong><br />' + (feature.properties['PLAYGROUNDS'] !== null ? autolinker.link(feature.properties['PLAYGROUNDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>TENNIS_COURTS</strong><br />' + (feature.properties['TENNIS_COURTS'] !== null ? autolinker.link(feature.properties['TENNIS_COURTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>FOOTBALL_FIELDS</strong><br />' + (feature.properties['FOOTBALL_FIELDS'] !== null ? autolinker.link(feature.properties['FOOTBALL_FIELDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>BASEBALL_FIELDS</strong><br />' + (feature.properties['BASEBALL_FIELDS'] !== null ? autolinker.link(feature.properties['BASEBALL_FIELDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>POOLS</strong><br />' + (feature.properties['POOLS'] !== null ? autolinker.link(feature.properties['POOLS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>GYM</strong><br />' + (feature.properties['GYM'] !== null ? autolinker.link(feature.properties['GYM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PICNIC_SHELTERS</strong><br />' + (feature.properties['PICNIC_SHELTERS'] !== null ? autolinker.link(feature.properties['PICNIC_SHELTERS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>REC_CENTER</strong><br />' + (feature.properties['REC_CENTER'] !== null ? autolinker.link(feature.properties['REC_CENTER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PICNIC_TABLES</strong><br />' + (feature.properties['PICNIC_TABLES'] !== null ? autolinker.link(feature.properties['PICNIC_TABLES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LIGHTED_FOOTBALL_FIELDS</strong><br />' + (feature.properties['LIGHTED_FOOTBALL_FIELDS'] !== null ? autolinker.link(feature.properties['LIGHTED_FOOTBALL_FIELDS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>created_user</strong><br />' + (feature.properties['created_user'] !== null ? autolinker.link(feature.properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>created_date</strong><br />' + (feature.properties['created_date'] !== null ? autolinker.link(feature.properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>last_edited_user</strong><br />' + (feature.properties['last_edited_user'] !== null ? autolinker.link(feature.properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>last_edited_date</strong><br />' + (feature.properties['last_edited_date'] !== null ? autolinker.link(feature.properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LUCITYID</strong><br />' + (feature.properties['LUCITYID'] !== null ? autolinker.link(feature.properties['LUCITYID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>COMPKEY</strong><br />' + (feature.properties['COMPKEY'] !== null ? autolinker.link(feature.properties['COMPKEY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>UNITID</strong><br />' + (feature.properties['UNITID'] !== null ? autolinker.link(feature.properties['UNITID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LucityAutoID</strong><br />' + (feature.properties['LucityAutoID'] !== null ? autolinker.link(feature.properties['LucityAutoID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>InLucity</strong><br />' + (feature.properties['InLucity'] !== null ? autolinker.link(feature.properties['InLucity'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LastSynDate</strong><br />' + (feature.properties['LastSynDate'] !== null ? autolinker.link(feature.properties['LastSynDate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Shape_Length</strong><br />' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Shape_Area</strong><br />' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Parks__City_of_NorfolkParks_1_0() {
+            return {
+                pane: 'pane_Parks__City_of_NorfolkParks_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,113,141,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Parks__City_of_NorfolkParks_1');
+        map.getPane('pane_Parks__City_of_NorfolkParks_1').style.zIndex = 401;
+        map.getPane('pane_Parks__City_of_NorfolkParks_1').style['mix-blend-mode'] = 'normal';
+        var layer_Parks__City_of_NorfolkParks_1 = new L.geoJson(json_Parks__City_of_NorfolkParks_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Parks__City_of_NorfolkParks_1',
+            layerName: 'layer_Parks__City_of_NorfolkParks_1',
+            pane: 'pane_Parks__City_of_NorfolkParks_1',
+            onEachFeature: pop_Parks__City_of_NorfolkParks_1,
+            style: style_Parks__City_of_NorfolkParks_1_0,
+        });
+        bounds_group.addLayer(layer_Parks__City_of_NorfolkParks_1);
+        map.addLayer(layer_Parks__City_of_NorfolkParks_1);
+        function pop_Significant_Trees_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>ID</strong><br />' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Nomination Date</strong><br />' + (feature.properties['Nomination Date'] !== null ? autolinker.link(feature.properties['Nomination Date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Genus</strong><br />' + (feature.properties['Genus'] !== null ? autolinker.link(feature.properties['Genus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Species</strong><br />' + (feature.properties['Species'] !== null ? autolinker.link(feature.properties['Species'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Common Name</strong><br />' + (feature.properties['Common Name'] !== null ? autolinker.link(feature.properties['Common Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Public Yes/No</strong><br />' + (feature.properties['Public Yes/No'] !== null ? autolinker.link(feature.properties['Public Yes/No'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Diameter (DBH - inches)</strong><br />' + (feature.properties['Diameter (DBH - inches)'] !== null ? autolinker.link(feature.properties['Diameter (DBH - inches)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Height (ft)</strong><br />' + (feature.properties['Height (ft)'] !== null ? autolinker.link(feature.properties['Height (ft)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Spread</strong><br />' + (feature.properties['Spread'] !== null ? autolinker.link(feature.properties['Spread'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Subjective Points</strong><br />' + (feature.properties['Subjective Points'] !== null ? autolinker.link(feature.properties['Subjective Points'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Date Modified</strong><br />' + (feature.properties['Date Modified'] !== null ? autolinker.link(feature.properties['Date Modified'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Latitude</strong><br />' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Longitude</strong><br />' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Significant_Trees_2_0(feature) {
+            if (feature.properties['Spread'] >= 0.000000 && feature.properties['Spread'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,252,245,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 10.000000 && feature.properties['Spread'] <= 35.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(213,239,207,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 35.000000 && feature.properties['Spread'] <= 55.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(158,215,152,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 55.000000 && feature.properties['Spread'] <= 75.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(85,181,103,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 75.000000 && feature.properties['Spread'] <= 95.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(29,134,65,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Spread'] >= 95.000000 && feature.properties['Spread'] <= 176.000000 ) {
+                return {
+                pane: 'pane_Significant_Trees_2',
+                shape: 'triangle',
+                radius: 6.4,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Significant_Trees_2');
+        map.getPane('pane_Significant_Trees_2').style.zIndex = 402;
+        map.getPane('pane_Significant_Trees_2').style['mix-blend-mode'] = 'normal';
+        var layer_Significant_Trees_2 = new L.geoJson(json_Significant_Trees_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Significant_Trees_2',
+            layerName: 'layer_Significant_Trees_2',
+            pane: 'pane_Significant_Trees_2',
+            onEachFeature: pop_Significant_Trees_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Significant_Trees_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Significant_Trees_2);
+        map.addLayer(layer_Significant_Trees_2);
+        function pop_Recreation_Centers__City_of_NorfolkRecreationCenters_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_12'] !== null ? autolinker.link(feature.properties['OBJECTID_12'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_1'] !== null ? autolinker.link(feature.properties['OBJECTID_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ADDRESS</strong><br />' + (feature.properties['ADDRESS'] !== null ? autolinker.link(feature.properties['ADDRESS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PHONE</strong><br />' + (feature.properties['PHONE'] !== null ? autolinker.link(feature.properties['PHONE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>TYPE</strong><br />' + (feature.properties['TYPE'] !== null ? autolinker.link(feature.properties['TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LOCATION</strong><br />' + (feature.properties['LOCATION'] !== null ? autolinker.link(feature.properties['LOCATION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>CAPACITY</strong><br />' + (feature.properties['CAPACITY'] !== null ? autolinker.link(feature.properties['CAPACITY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ZIPCODE</strong><br />' + (feature.properties['ZIPCODE'] !== null ? autolinker.link(feature.properties['ZIPCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>FAX</strong><br />' + (feature.properties['FAX'] !== null ? autolinker.link(feature.properties['FAX'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>CONTACT</strong><br />' + (feature.properties['CONTACT'] !== null ? autolinker.link(feature.properties['CONTACT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>EMERGENCY_</strong><br />' + (feature.properties['EMERGENCY_'] !== null ? autolinker.link(feature.properties['EMERGENCY_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SHELTER_PH</strong><br />' + (feature.properties['SHELTER_PH'] !== null ? autolinker.link(feature.properties['SHELTER_PH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>DIV_BUREAU</strong><br />' + (feature.properties['DIV_BUREAU'] !== null ? autolinker.link(feature.properties['DIV_BUREAU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>X_COORD</strong><br />' + (feature.properties['X_COORD'] !== null ? autolinker.link(feature.properties['X_COORD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Y_COORD</strong><br />' + (feature.properties['Y_COORD'] !== null ? autolinker.link(feature.properties['Y_COORD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>WEBSITE</strong><br />' + (feature.properties['WEBSITE'] !== null ? autolinker.link(feature.properties['WEBSITE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">created_user</th>\
+                        <td>' + (feature.properties['created_user'] !== null ? autolinker.link(feature.properties['created_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">created_date</th>\
+                        <td>' + (feature.properties['created_date'] !== null ? autolinker.link(feature.properties['created_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">last_edited_user</th>\
+                        <td>' + (feature.properties['last_edited_user'] !== null ? autolinker.link(feature.properties['last_edited_user'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">last_edited_date</th>\
+                        <td>' + (feature.properties['last_edited_date'] !== null ? autolinker.link(feature.properties['last_edited_date'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Recreation_Centers__City_of_NorfolkRecreationCenters_3_0() {
+            return {
+                pane: 'pane_Recreation_Centers__City_of_NorfolkRecreationCenters_3',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/accommodation_alpinehut.svg',
+            iconSize: [15.2, 15.2]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Recreation_Centers__City_of_NorfolkRecreationCenters_3');
+        map.getPane('pane_Recreation_Centers__City_of_NorfolkRecreationCenters_3').style.zIndex = 403;
+        map.getPane('pane_Recreation_Centers__City_of_NorfolkRecreationCenters_3').style['mix-blend-mode'] = 'normal';
+        var layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3 = new L.geoJson(json_Recreation_Centers__City_of_NorfolkRecreationCenters_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Recreation_Centers__City_of_NorfolkRecreationCenters_3',
+            layerName: 'layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3',
+            pane: 'pane_Recreation_Centers__City_of_NorfolkRecreationCenters_3',
+            onEachFeature: pop_Recreation_Centers__City_of_NorfolkRecreationCenters_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Recreation_Centers__City_of_NorfolkRecreationCenters_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+        map.addLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+        function pop_Planted_trees_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>genus</strong><br />' + (feature.properties['genus'] !== null ? autolinker.link(feature.properties['genus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>species</strong><br />' + (feature.properties['species'] !== null ? autolinker.link(feature.properties['species'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>common_nam</strong><br />' + (feature.properties['common_nam'] !== null ? autolinker.link(feature.properties['common_nam'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>street_num</strong><br />' + (feature.properties['street_num'] !== null ? autolinker.link(feature.properties['street_num'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>street_nam</strong><br />' + (feature.properties['street_nam'] !== null ? autolinker.link(feature.properties['street_nam'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>site</strong><br />' + (feature.properties['site'] !== null ? autolinker.link(feature.properties['site'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>date_deliv</strong><br />' + (feature.properties['date_deliv'] !== null ? autolinker.link(feature.properties['date_deliv'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>time_deliv</strong><br />' + (feature.properties['time_deliv'] !== null ? autolinker.link(feature.properties['time_deliv'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>date_compl</strong><br />' + (feature.properties['date_compl'] !== null ? autolinker.link(feature.properties['date_compl'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>time_compl</strong><br />' + (feature.properties['time_compl'] !== null ? autolinker.link(feature.properties['time_compl'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>estimated_</strong><br />' + (feature.properties['estimated_'] !== null ? autolinker.link(feature.properties['estimated_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>source</strong><br />' + (feature.properties['source'] !== null ? autolinker.link(feature.properties['source'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>program_ye</strong><br />' + (feature.properties['program_ye'] !== null ? autolinker.link(feature.properties['program_ye'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Planted_trees_4_0(feature) {
+            if (feature.properties['estimated_'] >= 153.938040 && feature.properties['estimated_'] <= 314.159265 ) {
+                return {
+                pane: 'pane_Planted_trees_4',
+                radius: 5.7,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['estimated_'] >= 314.159265 && feature.properties['estimated_'] <= 490.873852 ) {
+                return {
+                pane: 'pane_Planted_trees_4',
+                radius: 5.7,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['estimated_'] >= 490.873852 && feature.properties['estimated_'] <= 921.000000 ) {
+                return {
+                pane: 'pane_Planted_trees_4',
+                radius: 5.7,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['estimated_'] >= 921.000000 && feature.properties['estimated_'] <= 1256.637060 ) {
+                return {
+                pane: 'pane_Planted_trees_4',
+                radius: 5.7,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['estimated_'] >= 1256.637060 && feature.properties['estimated_'] <= 6361.725120 ) {
+                return {
+                pane: 'pane_Planted_trees_4',
+                radius: 5.7,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Planted_trees_4');
+        map.getPane('pane_Planted_trees_4').style.zIndex = 404;
+        map.getPane('pane_Planted_trees_4').style['mix-blend-mode'] = 'normal';
+        var layer_Planted_trees_4 = new L.geoJson(json_Planted_trees_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Planted_trees_4',
+            layerName: 'layer_Planted_trees_4',
+            pane: 'pane_Planted_trees_4',
+            onEachFeature: pop_Planted_trees_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Planted_trees_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Planted_trees_4);
+        map.addLayer(layer_Planted_trees_4);
+        map.on("zoomend", function(e) {
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Significant_Trees_2);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Significant_Trees_2);
+            }
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+            }
+            if (map.getZoom() <= 17 && map.getZoom() >= 12) {
+                map.addLayer(layer_Planted_trees_4);
+            } else if (map.getZoom() > 17 || map.getZoom() < 12) {
+                map.removeLayer(layer_Planted_trees_4);
+            }
+        });
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Significant_Trees_2);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Significant_Trees_2);
+            }
+            if (map.getZoom() <= 19 && map.getZoom() >= 12) {
+                map.addLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+            } else if (map.getZoom() > 19 || map.getZoom() < 12) {
+                map.removeLayer(layer_Recreation_Centers__City_of_NorfolkRecreationCenters_3);
+            }
+            if (map.getZoom() <= 17 && map.getZoom() >= 12) {
+                map.addLayer(layer_Planted_trees_4);
+            } else if (map.getZoom() > 17 || map.getZoom() < 12) {
+                map.removeLayer(layer_Planted_trees_4);
+            }
+        map.on("zoomend", function(){
+
+                if (map.hasLayer(layer_Parks__City_of_NorfolkParks_1)) {
+                    if (map.getZoom() <= 15 && map.getZoom() >= 19) {
+                        layer_Parks__City_of_NorfolkParks_1.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Parks__City_of_NorfolkParks_1.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        });
+        setBounds();
+        var i = 0;
+        layer_Parks__City_of_NorfolkParks_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['PARK_NAME'] !== null?String('<div style="color: #323232; font-size: 6pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['PARK_NAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Parks__City_of_NorfolkParks_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+                if (map.hasLayer(layer_Parks__City_of_NorfolkParks_1)) {
+                    if (map.getZoom() <= 15 && map.getZoom() >= 19) {
+                        layer_Parks__City_of_NorfolkParks_1.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Parks__City_of_NorfolkParks_1.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        resetLabels([layer_Parks__City_of_NorfolkParks_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Parks__City_of_NorfolkParks_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Parks__City_of_NorfolkParks_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Parks__City_of_NorfolkParks_1]);
+        });
+        </script>
+    </body>
+</html>

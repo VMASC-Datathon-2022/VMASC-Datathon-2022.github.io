@@ -46,3 +46,8 @@ For the datathon, we explore the benefits provided by trees identified as signif
 [Erik Jensen](https://scholar.google.com/citations?hl=en&user=OHIeH5YAAAAJ) is a Graduate Research Assistant at VMASC and a Graduate Student in the Computational Modeling and Simulation Engineering (CMSE) Department of Old Dominion University.
 
 [Brandon Feldhaus](https://www.linkedin.com/in/brandon-feldhaus-831100218/) is a Full Stack Developer in the Capabilities Laboratory at VMASC of Old Dominion University.
+
+
+<p align="center">
+    <img src="/images/vmasc.png" alt="VMASC Logo">
+</p>

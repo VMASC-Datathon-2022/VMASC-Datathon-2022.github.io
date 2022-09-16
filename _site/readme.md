@@ -28,6 +28,7 @@ You will have to replace the old legend with the new legend in every qgis map fi
 - [Planted Tree's QGIS Map](/qgis-map-2.markdown)
 - [Significant & Planted Tree's QGIS Map](/qgis-map-3.markdown)
 - [Parks and Recreation QGIS Map](/qgis-map-4.markdown)
+- [Tree Details QGIS Map](/qgis-map-5.markdown)
 
 
 In each of the files, you must change the 'src' to reference the new legend.
@@ -36,3 +37,4 @@ In each of the files, you must change the 'src' to reference the new legend.
 ```html
 <img src="/images/legend.png" width="300" height="275" align="right" style="padding-right: 1.5em;">
 ```
+

@@ -17,5 +17,7 @@ header:
         <a href="/qgis-map-3">Significant & Planted Tree's</a>
       </li><li class="masthead__menu-item">
         <a href="/qgis-map-4">Parks and Recreation</a>
+      </li><li class="masthead__menu-item">
+        <a href="/qgis-map-5">Tree Details</a>
       </li></ul>
 
