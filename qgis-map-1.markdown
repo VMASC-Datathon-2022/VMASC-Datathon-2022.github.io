@@ -11,7 +11,8 @@ permalink: /qgis-map-1/
 <pre>
 </pre>
 
-<h1 style="text-align:center">Significant Tree's QGIS Map</h1>
+<h1 style="text-align:center">VSignificant Tree's QGIS Map</h1>
+
 
 
 <style>
@@ -53,6 +54,6 @@ permalink: /qgis-map-1/
           src="/qgis-maps/Significant_tree_only/index.html"
           frameborder="0"
           allowfullscreen></iframe>
-          <img src="/images/legend.png" width="300" height="275" align="right" style="padding-right: 1.5em;">
+          <img src="/images/Map_Legend.svg" width="300" height="275" align="right" style="padding-right: 1.5em;">
 
 </div>

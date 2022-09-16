@@ -1,9 +1,9 @@
 main:
   - title: "Home"
     url: /
-  - title: "Shiny Application"
-    url: /r-shiny/
   - title: "QGIS Maps"
     url: /qgis-map-list/
   - title: "HASH.ai Model"
     url: https://core.hash.ai/@vzamponi/exposure-model-datathon/main
+  - title: "Shiny Application"
+    url: /r-shiny/
